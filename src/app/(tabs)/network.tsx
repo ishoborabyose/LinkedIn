@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '../../components/Themed';
 
-export default function TabOneScreen() {
+export default function NetworkScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab one and two and three</Text>
+      <Text style={styles.title}>Network is new tab</Text>
     </View>
   );
 }

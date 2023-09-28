@@ -4,7 +4,7 @@ import { Text, View } from '../../components/Themed';
 export default function NetworkScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Network is new tab</Text>
+      <Text style={styles.title}>Network is new tabss</Text>
     </View>
   );
 }

@@ -13,11 +13,7 @@ export default function PostDetailsScreen() {
 
     return (
         <ScrollView>
-            <Text style={{ fontSize: 20 , color: "white" }}> {id} </Text>
                <PostListItem post={post} />
         </ScrollView>
     )
 }
-
-
-// https://linkedin.com/posts/notjustdev_building-a-linkedin-clone-with-react-native-activity-7088154807215022082-lTdL/

@@ -1,6 +1,7 @@
-import { Text, View, StyleSheet, Image  } from "react-native";
+import { Text, View, StyleSheet, Image, Pressable  } from "react-native";
 import { Post } from "../types";
 import { FontAwesome } from '@expo/vector-icons'; 
+import { Link } from "expo-router";
 
 
 type PostListItemProps = {
@@ -25,7 +26,8 @@ function FooterButton({ text, icon }: FooterButtonProps) {
 
 export default function PostListItem({ post }: PostListItemProps) {
     return (
-        <View style={styles.container}>
+        <Link href={`/posts/${post.id}`} asChild>
+        <Pressable style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
                 <Image style={styles.userImage} source={{ uri: post.author.image }} />
@@ -53,15 +55,20 @@ export default function PostListItem({ post }: PostListItemProps) {
                 <FooterButton text="Comment" icon="comment-o"/>
                 <FooterButton text="Share" icon="share"/>
              </View>
-        </View>
+        </Pressable>
+        </Link>
    
     )
 }
 
 
 const styles =  StyleSheet.create({
+   
     container:{
-        backgroundColor: "white" 
+        backgroundColor: "white",
+        width: "100%",
+        maxWidth: "100%",
+        alignSelf: "center"
     },
     //Header
     header:{

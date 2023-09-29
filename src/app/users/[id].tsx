@@ -1,8 +1,9 @@
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { View ,Text , Image, StyleSheet, Pressable} from "react-native";
+import { View ,Text , Image, StyleSheet, Pressable, ScrollView} from "react-native";
 import userJson from "../../../assets/data/user.json"
 import { useLayoutEffect, useState } from "react";
 import { User } from "../../types";
+import ExperienceListItem from "../../components/ExperienceItem";
 
  export default function UserProfile() {
     const [ user, setUser ] = useState<User>(userJson)
@@ -18,7 +19,7 @@ import { User } from "../../types";
     }, [user?.name])
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
              {/* Header */}
             <View style={styles.header}>
                 {/* BG Image */}
@@ -43,7 +44,14 @@ import { User } from "../../types";
                 <Text style={styles.paragraph}>{ user.about }</Text>
              </View>
              {/* Experience */}
-        </View>
+
+             <View style={styles.section }>
+                <Text style={styles.sectionTitle}>
+                    Experience
+                </Text>
+                { user.experience?.map(experience => <ExperienceListItem key={experience.id} experience = {experience} /> ) }
+             </View>
+        </ScrollView>
     )
 }
 
@@ -52,12 +60,13 @@ const styles = StyleSheet.create({
 
      },
      header:{
-        backgroundColor: "white"
+        backgroundColor: "white",
+        marginBottom: 5,
      },
      backImage: {
         width: '100%',
-        aspectRatio: 5/2,
-        marginBottom: -60
+        aspectRatio: 5 / 2,
+        marginBottom: -60,
      },
      headerContent:{
         padding: 10,
@@ -80,7 +89,7 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: "center",
         borderRadius: 50,
-        marginVertical: 10
+        marginVertical: 10,
      },
      buttonText:{
         color: "white",
@@ -90,13 +99,13 @@ const styles = StyleSheet.create({
      section:{
         backgroundColor: "white",
         padding: 10,
-        marginVertical: 10,
+        marginVertical: 5,
      },
 
      sectionTitle:{
         fontSize: 18,
         fontWeight: "600",
-        marginVertical: 5
+        marginVertical: 5,
      },
      paragraph:{
         lineHeight: 20,

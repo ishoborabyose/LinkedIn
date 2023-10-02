@@ -23,7 +23,7 @@ export default function  SearchScreen(){
     <FlatList 
        data={users} 
        renderItem={({item}) => <UserListItem user={item} />} 
-       />
+       /> 
         </View>
       
     )

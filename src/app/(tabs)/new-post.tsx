@@ -1,20 +1,40 @@
-import { Pressable, StyleSheet, TextInput } from 'react-native';
-import { Text, View } from '../../components/Themed';
+import { Pressable, StyleSheet, TextInput,Text, View , Image } from 'react-native';
 import { useNavigation , useRouter} from 'expo-router';
 import { useLayoutEffect } from 'react';
 import { useState  } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import { FontAwesome } from '@expo/vector-icons'; 
 
 export default function NewPostScreen() {
   const [ content, setContent ] = useState('')
+  const [ image, setImage ] = useState<string | null>(null)
 
   const navigation = useNavigation()
   const router = useRouter()
+
   
   const onPost = () =>{
     console.warn("posting", content)
     router.push('/(tabs)/')
     setContent('')
+    setImage(null)
   }
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      // aspect: [4, 3],
+      quality: 0.5,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   useLayoutEffect(() => {
     
@@ -27,6 +47,21 @@ export default function NewPostScreen() {
   return (
     <View style={styles.container}>
       <TextInput value={content} onChangeText={setContent} placeholder='What do you want to talk about?'  style={styles.input} multiline/>
+
+      {
+        image && <Image source={{ uri: image }} style={styles.image} />
+      }
+      <View style={styles.footer}>
+        <Pressable onPress={pickImage} style={styles.iconButton}>
+        <FontAwesome name="image" size={24} color="gray"  />
+        </Pressable>
+        <Pressable style={styles.iconButton}>
+        <FontAwesome name="camera" size={24} color="black"  />
+        </Pressable>
+        <Pressable style={styles.iconButton}>
+        <FontAwesome name="glass" size={24} color="black"  />
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -53,5 +88,20 @@ const styles = StyleSheet.create({
   },
   input:{
    fontSize: 18,
+  },
+  image:{
+    width: "100%",
+    aspectRatio: 1,
+    marginTop: 'auto',
+  }, 
+  footer:{
+    marginTop: 'auto',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  iconButton:{
+    backgroundColor: 'gainsboro',
+    padding: 20,
+    borderRadius: 100, 
   }
 });

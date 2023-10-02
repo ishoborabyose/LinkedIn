@@ -53,7 +53,7 @@ export default function NewPostScreen() {
       }
       <View style={styles.footer}>
         <Pressable onPress={pickImage} style={styles.iconButton}>
-        <FontAwesome name="image" size={24} color="gray"  />
+        <FontAwesome name="image" size={24} color="black"  />
         </Pressable>
         <Pressable style={styles.iconButton}>
         <FontAwesome name="camera" size={24} color="black"  />

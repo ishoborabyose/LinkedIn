@@ -26,7 +26,6 @@ export default function HomeFeedScreen() {
     return <ActivityIndicator />
   }
   if (error) {
-    console.log(error);
     return ( 
     <Text>Something went wrong</Text>
     )

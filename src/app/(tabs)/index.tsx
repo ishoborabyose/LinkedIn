@@ -18,7 +18,6 @@ query PostListQuery {
 }
 `;
 
-
 export default function HomeFeedScreen() {
   const { loading, error, data } = useQuery(postList);
 

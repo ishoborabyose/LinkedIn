@@ -1,8 +1,6 @@
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { View ,Text , Image, StyleSheet, Pressable, ScrollView, ActivityIndicator} from "react-native";
-import userJson from "../../../assets/data/user.json"
-import { useLayoutEffect, useState } from "react";
-import { User } from "../../types";
+import { useLayoutEffect } from "react";
 import ExperienceListItem from "../../components/ExperienceItem";
 import { gql, useQuery  } from "@apollo/client"
 

@@ -23,7 +23,9 @@ export default function NewPostScreen() {
   const [ image, setImage ] = useState<string | null>(null)
   const { dbUser } = useUserContext()
 
-  const [handleMutation, { loading, error, data }] = useMutation(insertPost)
+  const [handleMutation, { loading, error, data }] = useMutation(insertPost, { 
+    refetchQueries: ['PostPaginatedListQuery'],
+  });
 
   const navigation = useNavigation()
   const router = useRouter()
@@ -42,12 +44,10 @@ export default function NewPostScreen() {
 
     } catch (e) {
       console.log(e);
-      
     }
   }
 
   useLayoutEffect(() => {
-    
     navigation.setOptions({
       headerRight: () => <Pressable onPress={onPost} style={styles.postButton}>
         <Text style={styles.postButtonText}>{ loading ? 'Submitting ...' : 'Submit' }</Text>

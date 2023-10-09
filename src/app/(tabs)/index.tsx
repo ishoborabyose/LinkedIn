@@ -3,21 +3,6 @@ import PostListItem from '../../components/PostListItem';
 import { gql, useQuery } from "@apollo/client"
 import { useState } from 'react';
 
-const postList = gql`
-query PostListQuery {
-  postList {
-    id
-    content
-    image
-    profile {
-      id
-      name
-      position
-      image
-    }
-  }
-}
-`;
 
 const postPaginatedList = gql`query PostPaginatedListQuery($first: Int, $after: Int) {
   postPaginatedList(first: $first, after: $after) {
@@ -68,3 +53,12 @@ export default function HomeFeedScreen() {
   />
   );
 }
+
+
+
+
+//Auth using clerk.com
+//React native
+//Graphql integrations with apollo client
+// postgres hosted on neon.tech
+//graphql API build with stepzen

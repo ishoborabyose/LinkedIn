@@ -5,6 +5,7 @@ import { useState  } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { gql, useMutation } from "@apollo/client"
+import { useUserContext } from '../../context/UserContext';
 
 
 const insertPost = gql`
@@ -20,6 +21,7 @@ mutation MyMutation($userid: ID, $image: String, $content: String){
 export default function NewPostScreen() {
   const [ content, setContent ] = useState('')
   const [ image, setImage ] = useState<string | null>(null)
+  const { dbUser } = useUserContext()
 
   const [handleMutation, { loading, error, data }] = useMutation(insertPost)
 
@@ -30,8 +32,8 @@ export default function NewPostScreen() {
   const onPost = async () =>{
     try {
       await handleMutation({ variables: {
-        userid: 2,
-        content: content
+        userid: dbUser.id,
+        content
       }})
      
     router.push('/(tabs)/')
@@ -52,7 +54,6 @@ export default function NewPostScreen() {
         </Pressable> 
     }) 
   }, [onPost, loading])
-  //{ loading ? 'Submitting ...' : 'Submit' } 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({

@@ -3,12 +3,16 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import {  ActivityIndicator, useColorScheme } from 'react-native';
 import { ApolloProvider } from "@apollo/client";
 import client from '../apollo/Client';
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo"
 import AuthScreen from '../components/auth/AuthScreen';
 import * as SecureStore from "expo-secure-store";
+import UserContextProvider from '../context/UserContext';
+import { useUserContext } from '../context/UserContext';
+import SetupProfileScreen from '../components/auth/SetupProfileScreen';
+
 
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
@@ -65,28 +69,52 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return <RootLayoutNavWithProviders />;
 }
 
-function RootLayoutNav() {
+
+function RootLayoutNavWithProviders(){
   const colorScheme = useColorScheme();
 
   return (
     <ClerkProvider tokenCache={tokenCache} publishableKey={CLERK_PUBLISHABLE_KEY}>
     <ApolloProvider client={client}> 
+    <UserContextProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SignedIn>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="posts/[id]" options={{ title: 'Post' }} />
-      </Stack>
-      </SignedIn>
-      <SignedOut>
-        <AuthScreen />
-      </SignedOut>
+     <RootLayoutNav />
     </ThemeProvider>
+    </UserContextProvider>
     </ApolloProvider>
     </ClerkProvider>
   );
+}
+
+function RootLayoutNav() {
+  const { dbUser, authUser, loading } = useUserContext();
+  console.log(authUser);
+  console.log(dbUser);
+
+  // if (loading) {
+  //   return <ActivityIndicator />;
+  // }
+
+  return(
+    <>
+    <SignedIn>
+      {!dbUser ? (
+        <SetupProfileScreen />
+      ) : (
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="posts/[id]" options={{ title: 'Post' }} />
+        </Stack>
+      )}
+    </SignedIn>
+    <SignedOut>
+      <AuthScreen />
+    </SignedOut>
+  </>
+  )
+ 
 }

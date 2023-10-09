@@ -94,9 +94,9 @@ function RootLayoutNav() {
   console.log(authUser);
   console.log(dbUser);
 
-  // if (loading) {
-  //   return <ActivityIndicator />;
-  // }
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return(
     <>
